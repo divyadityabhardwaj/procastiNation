@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/auth.js'; // Import your auth routes
 import sessionRoutes from './routes/sessionRoutes.js'; // Import the session routes
+import videoRoutes from './routes/videoRoutes.js';
 import cookieParser from 'cookie-parser';
 
 ;
@@ -15,6 +16,7 @@ app.use(cookieParser());
 // Use the session routes
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/auth', authRoutes); 
+app.use('/api/video' ,videoRoutes);
 
 
 
