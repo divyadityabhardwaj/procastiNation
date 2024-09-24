@@ -15,7 +15,7 @@ router.delete('/:sessionId', deleteSession);
 router.put('/:sessionId', updateSession);
 
 //all sessions made by user
-router.get('/sessions', getUserSessions);
+router.get('/sessions', authenticateUser , getUserSessions);
 
 
 export default router;

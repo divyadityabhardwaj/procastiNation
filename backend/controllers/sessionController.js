@@ -74,7 +74,6 @@ export const getUserSessions = async (req, res) => {
   try {
     // Retrieve the logged-in user's ID from the request (assuming authentication middleware)
     const user = req.user;
-
     if (!user) {
       return res.status(401).json({ message: 'Please log in or sign up first.' });
     }
