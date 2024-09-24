@@ -11,8 +11,17 @@ export const signUp = async (req, res) => {
     });
   
     if (error) {
+      console.log(error);
       return res.status(400).json({ error: error.message });
     }
+
+    res.cookie('access_token', data.session.access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 3600000 , // 1 hour
+  });
+
   
     // If sign-up is successful, return the user 
     res.status(201).json({ user });
@@ -35,8 +44,9 @@ export const signIn = async (req, res) => {
     // Store access token in cookie
     res.cookie('access_token', data.session.access_token, {
         httpOnly: true,
-        secure: true, // Set to true if using HTTPS
-        maxAge: 3600000*24  , // 1 hour
+        secure: true,
+        sameSite: 'none',
+        maxAge: 3600000 , // 1 hour
     });
 
     // Return user data
