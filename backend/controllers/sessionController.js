@@ -98,3 +98,69 @@ export const getUserSessions = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
+
+export const saveSessionNotes = async (req, res) => {
+  const { sessionId } = req.params;
+  const { notes } = req.body;
+
+
+
+  // Check if notes data is provided
+  if (!notes) {
+    return res.status(400).json({ error: 'Notes content is required.' });
+  }
+
+  // Verify the session exists
+  const { data: existingSession, error: fetchError } = await supabase
+    .from('sessions')
+    .select('id')
+    .eq('id', sessionId)
+    .single();
+
+  if (fetchError || !existingSession) {
+    console.error('Error fetching session:', fetchError);
+    return res.status(404).json({ error: 'Session not found.' });
+  }
+
+  // Update the session notes in the database
+  const { data, error } = await supabase
+    .from('sessions')
+    .update({ notes })
+    .eq('id', sessionId)
+    .select('notes');
+
+  // Check for errors in the update process
+  if (error) {
+    console.error('Error saving notes:', error);
+    return res.status(400).json({ error: error.message });
+  }
+
+  // Return the updated notes
+  res.status(200).json({ message: 'Notes saved successfully', notes: data[0].notes });
+};
+
+// Get notes for a session
+export const getSessionNotes = async (req, res) => {
+  const { sessionId } = req.params;
+
+  // Fetch the session notes from the database
+  const { data, error } = await supabase
+    .from('sessions')
+    .select('notes')
+    .eq('id', sessionId)
+    .single();
+
+  // Check for errors
+  if (error) {
+    console.error('Error retrieving notes:', error);
+    return res.status(400).json({ error: error.message });
+  }
+
+  // Check if notes exist
+  if (!data || !data.notes) {
+    return res.status(404).json({ error: 'Session notes not found.' });
+  }
+
+  // Return the notes
+  res.status(200).json({ notes: data.notes });
+};

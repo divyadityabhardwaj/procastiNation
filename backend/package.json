@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js",
+    "build": "echo 'No build step required'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@supabase/supabase-js": "^2.45.4",
     "axios": "^1.7.7",
     "backend": "file:",
@@ -19,7 +21,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
-    "nodemon": "^3.1.6"
+    "g": "^2.0.1",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.16",
+    "nodemon": "^3.1.6",
+    "yarn": "^1.22.22",
+    "youtube-transcript": "^1.2.1"
   },
   "type": "module"
 }
