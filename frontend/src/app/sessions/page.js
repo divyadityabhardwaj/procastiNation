@@ -63,44 +63,9 @@ export default function SessionsPage() {
   const [videoNotes, setVideoNotes] = useState({})
   const [videoSummaries, setVideoSummaries] = useState({})
 
-  useEffect(() => {
-    fetchSessions()
-    fetchUserName()
-  }, [])
-
-  useEffect(() => {
-    if (selectedSession) {
-      fetchSessionNotes(selectedSession.id)
-    }
-  }, [selectedSession])
-
-  useEffect(() => {
-    let saveTimer
-    if (selectedSession) {
-      saveTimer = setInterval(() => {
-        saveSessionNotes(selectedSession.id, sessionNotes)
-      }, 10000)
-    }
-    return () => clearInterval(saveTimer)
-  }, [selectedSession, sessionNotes])
-
-  const fetchUserName = async () => {
+  const fetchSessions = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/auth/user', {
-        method: 'GET',
-        credentials: 'include',
-      })
-      if (!response.ok) throw new Error('Network response was not ok')
-      const data = await response.json()
-      setUserName(data.name)
-    } catch (error) {
-      console.error('Error fetching user name:', error)
-    }
-  }
-
-  const fetchSessions = async () => {
-    try {
-      const response = await fetch('http://localhost:3001/api/sessions/sessions', {
+      const response = await fetch('${process.env.NEXT_BACKEND_URL}/api/sessions/sessions', {
         method: 'GET',
         credentials: 'include',
       })
@@ -118,6 +83,83 @@ export default function SessionsPage() {
     } finally {
       setLoading(false)
     }
+  }, [toast])
+
+  const fetchSessionNotes = useCallback(async (sessionId) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/sessions/${sessionId}/notes`, {
+        method: 'GET',
+        credentials: 'include',
+      })
+      if (!response.ok) throw new Error('Network response was not ok')
+      const data = await response.json()
+      setSessionNotes(data.notes || '')
+    } catch (error) {
+      console.error('Error fetching session notes:', error)
+      toast({
+        title: "Error",
+        description: "Failed to fetch session notes. Please try again.",
+        variant: "destructive",
+      })
+    }
+  }, [toast])
+
+  const saveSessionNotes = useCallback(async (sessionId, notes) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/sessions/${sessionId}/notes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notes }),
+        credentials: 'include',
+      })
+      if (!response.ok) throw new Error('Network response was not ok')
+      toast({
+        title: "Success",
+        description: "Session notes saved successfully.",
+      })
+    } catch (error) {
+      console.error('Error saving session notes:', error)
+      toast({
+        title: "Error",
+        description: "Failed to save session notes. Please try again.",
+        variant: "destructive",
+      })
+    }
+  }, [toast])
+
+  useEffect(() => {
+    fetchSessions()
+    fetchUserName()
+  }, [fetchSessions])
+
+  useEffect(() => {
+    if (selectedSession) {
+      fetchSessionNotes(selectedSession.id)
+    }
+  }, [selectedSession, fetchSessionNotes])
+
+  useEffect(() => {
+    let saveTimer
+    if (selectedSession) {
+      saveTimer = setInterval(() => {
+        saveSessionNotes(selectedSession.id, sessionNotes)
+      }, 10000)
+    }
+    return () => clearInterval(saveTimer)
+  }, [selectedSession, sessionNotes, saveSessionNotes])
+
+  const fetchUserName = async () => {
+    try {
+      const response = await fetch('${process.env.NEXT_BACKEND_URL}/api/auth/user', {
+        method: 'GET',
+        credentials: 'include',
+      })
+      if (!response.ok) throw new Error('Network response was not ok')
+      const data = await response.json()
+      setUserName(data.name)
+    } catch (error) {
+      console.error('Error fetching user name:', error)
+    }
   }
 
   const handleSessionSelect = async (session) => {
@@ -125,7 +167,7 @@ export default function SessionsPage() {
     setShowHome(false)
     setSessionVideos([])
     try {
-      const response = await fetch(`http://localhost:3001/api/video/${session.id}`, {
+      const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/video/${session.id}`, {
         method: 'GET',
         credentials: 'include',
       })
@@ -147,7 +189,7 @@ export default function SessionsPage() {
     e.preventDefault()
     setError(null)
     try {
-      const response = await fetch('http://localhost:3001/api/sessions/create', {
+      const response = await fetch('${process.env.NEXT_BACKEND_URL}/api/sessions/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: newSessionName }),
@@ -173,51 +215,9 @@ export default function SessionsPage() {
     }
   }
 
-  const fetchSessionNotes = async (sessionId) => {
-    try {
-      const response = await fetch(`http://localhost:3001/api/sessions/${sessionId}/notes`, {
-        method: 'GET',
-        credentials: 'include',
-      })
-      if (!response.ok) throw new Error('Network response was not ok')
-      const data = await response.json()
-      setSessionNotes(data.notes || '')
-    } catch (error) {
-      console.error('Error fetching session notes:', error)
-      toast({
-        title: "Error",
-        description: "Failed to fetch session notes. Please try again.",
-        variant: "destructive",
-      })
-    }
-  }
-
-  const saveSessionNotes = async (sessionId, notes) => {
-    try {
-      const response = await fetch(`http://localhost:3001/api/sessions/${sessionId}/notes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ notes }),
-        credentials: 'include',
-      })
-      if (!response.ok) throw new Error('Network response was not ok')
-      toast({
-        title: "Success",
-        description: "Session notes saved successfully.",
-      })
-    } catch (error) {
-      console.error('Error saving session notes:', error)
-      toast({
-        title: "Error",
-        description: "Failed to save session notes. Please try again.",
-        variant: "destructive",
-      })
-    }
-  }
-
   const fetchVideoNotes = async (videoId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/video/${videoId}/notes`, {
+      const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/video/${videoId}/notes`, {
         method: 'GET',
         credentials: 'include',
       })
@@ -234,9 +234,9 @@ export default function SessionsPage() {
     }
   }
 
-  const saveVideoNotes = async (videoId, notes) => {
+  const saveVideoNotes = useCallback(async (videoId, notes) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/video/${videoId}/notes`, {
+      const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/video/${videoId}/notes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ notes }),
@@ -255,16 +255,16 @@ export default function SessionsPage() {
         variant: "destructive",
       })
     }
-  }
+  }, [toast])
 
   const handleNotesChange = useCallback((videoId, newNotes) => {
     setVideoNotes(prevNotes => ({ ...prevNotes, [videoId]: newNotes }))
     saveVideoNotes(videoId, newNotes)
-  }, [])
+  }, [saveVideoNotes])
 
   const handleGenerateSummary = async (videoId, youtubeUrl) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/video/get/summary?youtubeUrl=${encodeURIComponent(youtubeUrl)}`, {
+      const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/video/get/summary?youtubeUrl=${encodeURIComponent(youtubeUrl)}`, {
         method: 'GET',
         credentials: 'include',
       })
@@ -300,7 +300,7 @@ export default function SessionsPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/api/video/create?sessionId=${selectedSession.id}&youtubeUrl=${encodeURIComponent(newVideoUrl)}`, {
+      const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/video/create?sessionId=${selectedSession.id}&youtubeUrl=${encodeURIComponent(newVideoUrl)}`, {
         method: 'POST',
         credentials: 'include',
       })
@@ -411,7 +411,8 @@ export default function SessionsPage() {
           )}
         </div>
       </div>
-      <div  className="flex-1 flex overflow-hidden" style={{ width: mainContentWidth }}>
+      <div className="flex-1 flex overflow-hidden" style={{ width: mainContentWidth }}>
+        
         <div className="flex-1 p-4 overflow-auto" style={{ width: playingVideoId ? '50%' : '100%' }}>
           {showHome ? (
             <div>

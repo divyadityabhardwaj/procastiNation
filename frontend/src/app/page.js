@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -13,17 +13,17 @@ import { CheckCircle, Play, FileText, ListTodo, Mountain } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import "./globals.css"
-import Modal from '@/components/Modal'; // Import the updated Modal component
+import Modal from '@/components/Modal'
 
 export default function LandingPageJs() {
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
+    setIsModalOpen(false)
+  }
 
   return (
-    (<div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <header className="px-4 lg:px-6 h-14 flex items-center">
         <Link className="flex items-center justify-center" href="#">
           <Mountain className="h-6 w-6 mr-2" />
@@ -35,20 +35,18 @@ export default function LandingPageJs() {
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#faq">FAQ</Link>
         </nav>
         <div className="ml-4 flex gap-2">
-          <Button variant="ghost" size="sm" onClick={() => setIsModalOpen(true)}>Log In</Button> {/* Open login modal */}
-          <Button size="sm" onClick={() => setIsModalOpen(true)}>Sign Up</Button> {/* Open sign up modal */}
+          <Button variant="ghost" size="sm" onClick={() => setIsModalOpen(true)}>Log In</Button>
+          <Button size="sm" onClick={() => setIsModalOpen(true)}>Sign Up</Button>
         </div>
       </header>
 
-      {/* Updated Modal for Login/Sign Up */}
       <Modal 
         isOpen={isModalOpen} 
         onClose={handleModalClose} 
-        onLoginSuccess={() => setIsModalOpen(false)} // Close modal on success
-      /> {/* Pass onLoginSuccess prop */}
-      {/* Use Link for navigation */}
+        onLoginSuccess={() => setIsModalOpen(false)}
+      />
       <Link href="/sessions">
-        <Button size="sm">Go to Sessions</Button> {/* Example button to navigate */}
+        <Button size="sm">Go to Sessions</Button>
       </Link>
 
       <main className="flex-1">
@@ -56,13 +54,11 @@ export default function LandingPageJs() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
-                <h1
-                  className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
                   Your Ultimate Study Workspace for Videos, Notes, and AI-Powered Insights
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                  Seamlessly integrate videos, organize your notes, and let AI help you summarize, learn, and stay
-                  productive—all in one place.
+                  Seamlessly integrate videos, organize your notes, and let AI help you summarize, learn, and stay productive&mdash;all in one place.
                 </p>
               </div>
               <div className="space-x-4">
@@ -74,26 +70,15 @@ export default function LandingPageJs() {
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32" id="features">
           <div className="container px-4 md:px-6">
-            <div
-              className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Organize, Study, and Stay on Track</h2>
-                <p
-                  className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  ProcrastiNation is your all-in-one study companion designed to help you learn more efficiently. Whether
-                  you're watching videos, taking notes, or summarizing key points, ProcrastiNation makes studying easier and
-                  more interactive.
+                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  ProcrastiNation is your all-in-one study companion designed to help you learn more efficiently. Whether you&apos;re watching videos, taking notes, or summarizing key points, ProcrastiNation makes studying easier and more interactive.
                 </p>
               </div>
             </div>
-            <div
-              className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-              <Image
-                alt="App screenshot"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-                height={310}
-                src="/placeholder.svg"
-                width={550} />
+            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
               <div className="flex flex-col justify-center space-y-4">
                 <ul className="grid gap-6">
                   <li>
@@ -134,8 +119,7 @@ export default function LandingPageJs() {
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
           <div className="container px-4 md:px-6">
-            <h2
-              className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Why Choose ProcrastiNation?</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Why Choose ProcrastiNation?</h2>
             <div className="grid gap-6 lg:grid-cols-2">
               <Card>
                 <CardHeader>
@@ -145,8 +129,7 @@ export default function LandingPageJs() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  Embed YouTube videos directly into your workspace and take notes while watching. With time-stamped notes,
-                  you can easily revisit key points with just one click.
+                  Embed YouTube videos directly into your workspace and take notes while watching. With time-stamped notes&comma; you can easily revisit key points with just one click&period;
                 </CardContent>
               </Card>
               <Card>
@@ -181,7 +164,7 @@ export default function LandingPageJs() {
                 </CardHeader>
                 <CardContent>
                   Turn your notes into action items. With built-in task management, track your assignments, set deadlines,
-                  and prioritize what's important.
+                  and prioritize what&apos;s important.
                 </CardContent>
               </Card>
             </div>
@@ -189,8 +172,7 @@ export default function LandingPageJs() {
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
-            <h2
-              className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
               How ProcrastiNation Helps You Study Smarter
             </h2>
             <div className="grid gap-6 lg:grid-cols-4">
@@ -200,7 +182,7 @@ export default function LandingPageJs() {
                 </div>
                 <h3 className="text-xl font-bold mb-2">Create Your Workspace</h3>
                 <p className="text-muted-foreground">
-                  Start by creating a workspace for each subject or project you're working on. Customize it with notes,
+                  Start by creating a workspace for each subject or project you&apos;re working on. Customize it with notes,
                   videos, tasks, and more.
                 </p>
               </div>
@@ -241,14 +223,13 @@ export default function LandingPageJs() {
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
           <div className="container px-4 md:px-6">
-            <h2
-              className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">What Our Users Are Saying</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">What Our Users Are Saying</h2>
             <div className="grid gap-6 lg:grid-cols-2">
               <Card>
                 <CardContent className="pt-6">
                   <blockquote className="text-lg">
-                    "ProcrastiNation completely transformed the way I study. The AI summaries save me so much time, and the
-                    video notes feature is a game changer!"
+                    &quot;ProcrastiNation completely transformed the way I study. The AI summaries save me so much time, and the
+                    video notes feature is a game changer!&quot;
                   </blockquote>
                   <footer className="mt-4">
                     <p className="font-semibold">Sarah</p>
@@ -259,8 +240,8 @@ export default function LandingPageJs() {
               <Card>
                 <CardContent className="pt-6">
                   <blockquote className="text-lg">
-                    "It's like Notion but specifically for studying! The way I can link my YouTube videos with notes and
-                    tasks in one place is incredible."
+                    &quot;It&apos;s like Notion but specifically for studying! The way I can link my YouTube videos with notes and
+                    tasks in one place is incredible.&quot;
                   </blockquote>
                   <footer className="mt-4">
                     <p className="font-semibold">James</p>
@@ -273,8 +254,7 @@ export default function LandingPageJs() {
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32" id="pricing">
           <div className="container px-4 md:px-6">
-            <h2
-              className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
               Unlock Your Full Study Potential
             </h2>
             <div className="grid gap-6 lg:grid-cols-2">
@@ -289,7 +269,7 @@ export default function LandingPageJs() {
                     <li>Basic AI tools for summarization</li>
                   </ul>
                 </CardContent>
-                <div className="p-6 pt-0">
+                <div className="p-6 pt-8">
                   <Button className="w-full">Get Started for Free</Button>
                 </div>
               </Card>
@@ -311,11 +291,11 @@ export default function LandingPageJs() {
               </Card>
             </div>
           </div>
+        
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32 bg-muted" id="faq">
           <div className="container px-4 md:px-6">
-            <h2
-              className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Frequently Asked Questions</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Frequently Asked Questions</h2>
             <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
               <AccordionItem value="item-1">
                 <AccordionTrigger>What is ProcrastiNation?</AccordionTrigger>
@@ -323,7 +303,6 @@ export default function LandingPageJs() {
                   ProcrastiNation is a study platform where you can organize your study materials, integrate YouTube videos,
                   take notes, and use AI-powered tools to summarize content and answer questions.
                 </AccordionContent>
-              
               </AccordionItem>
               <AccordionItem value="item-2">
                 <AccordionTrigger>How does the AI summarization work?</AccordionTrigger>
@@ -344,8 +323,7 @@ export default function LandingPageJs() {
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
-            <div
-              className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Ready to Study Smarter?</h2>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl">
@@ -363,8 +341,7 @@ export default function LandingPageJs() {
           </div>
         </section>
       </main>
-      <footer
-        className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
         <p className="text-xs text-muted-foreground">© 2024 ProcrastiNation. All rights reserved.</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" href="#">
@@ -375,6 +352,6 @@ export default function LandingPageJs() {
           </Link>
         </nav>
       </footer>
-    </div>)
-  );
+    </div>
+  )
 }

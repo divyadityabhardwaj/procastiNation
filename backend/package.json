@@ -1,10 +1,10 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "api/index.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "start": "node app.js",
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js",
     "build": "echo 'No build step required'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,9 +24,10 @@
     "g": "^2.0.1",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.16",
-    "nodemon": "^3.1.6",
-    "yarn": "^1.22.22",
     "youtube-transcript": "^1.2.1"
   },
-  "type": "module"
+  "type": "module",
+  "engines": {
+    "node": ">=14.x"
+  }
 }
