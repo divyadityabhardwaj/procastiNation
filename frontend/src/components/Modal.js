@@ -23,7 +23,7 @@ const Modal = ({ isOpen, onClose }) => {
     setError(null); // Reset error before submission
 
     try {
-      const response = await fetch(`http://localhost:3001/api/auth/${mode === 'login' ? 'signin' : 'signup'}`, {
+      const response = await fetch(`${process.env.NEXT_FRONTEND_URL}/api/auth/${mode === 'login' ? 'signin' : 'signup'}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
